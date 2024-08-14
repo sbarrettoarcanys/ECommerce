@@ -1,0 +1,191 @@
+﻿@model ShoppingCartDetailsViewModel
+
+<form method="post">
+    <br />
+    <div class="card shadow border-0">
+        <div class="card-header bg-secondary bg-gradient text-light ml-0 py-4">
+            <div class="row px-4">
+                <div class="col-6">
+                    <h5 class="pt-2 text-white">
+                        Shopping Cart
+                    </h5>
+                </div>
+
+            </div>
+        </div>
+        <div class="card-body my-4">
+            <div class="row">
+            </div>
+            <div class="row mb-3 pb-3">
+                <div class="col-md-2 offset-md-1">
+                    <a asp-area="Customer" asp-controller="Home" asp-action="Index" class="btn btn-outline-primary text-uppercase mb-5 btn-sm"><small>Continue Shopping</small></a>
+                </div>
+                <div class="col-md-10 offset-md-1">
+
+                    @foreach (var shoppingCartViewModel in Model.ShoppingCartViewModels)
+                    {
+                        <div class="row border-bottom pb-3" id="shoppingCartRow-@shoppingCartViewModel.Id">
+                            <div class="d-none d-lg-block col-lg-1 text-center py-2">
+                                @if (shoppingCartViewModel.Product.ProductImages != null && shoppingCartViewModel.Product.ProductImages.Count() > 0)
+                                {
+                                    <img src="@shoppingCartViewModel.Product.ProductImages.FirstOrDefault().ImageUrl" class="card-img-top rounded w-100" />
+                                }
+                                else
+                                {
+                                    <img src="https://placehold.co/500x600/png" class="card-img-top rounded w-100" />
+                                }
+                            </div>
+                            <div class="col-12 col-lg-6 pt-md-3">
+                                <h5 class="text-uppercase text-secondary"><strong>@shoppingCartViewModel.Product.Name</strong></h5>
+                                <p><small>@Html.Raw(shoppingCartViewModel.Product.Description)</small></p>
+                            </div>
+                            <div class="col-12  col-lg-5 text-center row">
+                               @*  <div class="col-3 text-md-right pt-2 pt-md-4">
+                                    <h6 class="fw-semibold">
+                                        <span id="shoppingCartPrice-@shoppingCartViewModel.Id">@shoppingCartViewModel.Price.ToString("c")</span>
+                                        <span class="text-muted">&nbsp;x&nbsp;</span>
+                                        <span id="shoppingCartCount-@shoppingCartViewModel.Id">@shoppingCartViewModel.Count</span>
+                                    </h6>
+                                </div>
+                                <div class="col-6 col-sm-4 col-lg-6 pt-2">
+                                    <div class="w-75 btn-group" role="group">
+                                        <a asp-action="Plus" asp-route-cartId="@shoppingCartViewModel.Id" class="btn btn-outline-primary bg-gradient py-2 plusButton" data-id="@shoppingCartViewModel.Id">
+                                            <i class="bi bi-plus-square"></i>
+                                        </a> &nbsp;
+                                        <a asp-action="Minus" asp-route-cartId="@shoppingCartViewModel.Id" class="btn btn-outline-primary bg-gradient py-2 minusButton" data-id="@shoppingCartViewModel.Id">
+                                            <i class="bi bi-dash-square"></i>
+                                        </a>
+                                    </div>
+
+                                </div>
+                                <div class="col-3 col-sm-4 col-lg-2 offset-lg-1 text-right pt-2">
+                                    <a asp-action="Remove" asp-route-cartId="@shoppingCartViewModel.Id" class="btn btn-danger bg-gradient py-2 ">
+                                        <i class="bi bi-trash-fill"></i>
+                                    </a>
+                                </div> *@
+
+                                <div class="col-3 text-md-right pt-2 pt-md-4">
+                                    <h6 class="fw-semibold">
+                                        <span id="shoppingCartPrice-@shoppingCartViewModel.Id">@shoppingCartViewModel.PriceString</span>
+                                        <span class="text-muted">&nbsp;x&nbsp;</span>
+                                        <span id="shoppingCartCount-@shoppingCartViewModel.Id">@shoppingCartViewModel.Count</span>
+                                    </h6>
+                                </div>
+                                <div class="col-6 col-sm-4 col-lg-6 pt-2">
+                                    <div class="w-75 btn-group" role="group">
+                                        <a class="plusButton btn btn-outline-primary bg-gradient py-2" data-id="@shoppingCartViewModel.Id">
+                                            <i class="bi bi-plus-square"></i>
+                                        </a> &nbsp;
+                                        <a class="minusButton btn btn-outline-primary bg-gradient py-2" data-id="@shoppingCartViewModel.Id">
+                                            <i class="bi bi-dash-square"></i>
+                                        </a>
+                                    </div>
+
+                                </div>
+                                <div class="col-3 col-sm-4 col-lg-2 offset-lg-1 text-right pt-2">
+                                    <a class="removeButton btn btn-danger bg-gradient py-2 " data-id="@shoppingCartViewModel.Id">
+                                        <i class="bi bi-trash-fill"></i>
+                                    </a>
+                                </div>
+                            </div>
+
+                        </div>
+                    }
+
+
+                </div>
+            </div>
+            <div class="card-footer bg-white border-0">
+                <div class="row">
+                    <div class="col-md-4 offset-md-4">
+                        <ul class="list-group mb-4">
+                            <li class="d-flex justify-content-between align-items-center">
+                                <h5 class="text-dark fw-semibold text-uppercase"> Total (USD)</h5>
+                                <h4 class="text-dark fw-bolder" id="OrderTotal">@Model.OrderTotal.ToString("c")</h4>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                @* <div class="row">
+                    <div class="col-md-2 offset-md-5">
+                        <a asp-action="Summary" class="btn btn-primary border-0 bg-gradient w-100 py-2">Summary</a>
+                    </div>
+                </div> *@
+            </div>
+        </div>
+</form>
+
+@section Scripts {
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $(".minusButton").click(function () {
+                let cartId = ($(this).attr("data-id"));
+                console.log(cartId)
+                $.ajax({
+                    url: `/Customer/Cart/MinusJson?cartId=${cartId}`,
+                    // url: "/Customer/Cart/plus?cartId=" + cartId,
+                    type: "POST",
+                    data: { id: '' },
+                    success: function (data) {
+
+                        $(`#shoppingCartPrice-${cartId}`).text(data.shoppingCartViewModel.priceString);
+                        $(`#shoppingCartCount-${cartId}`).text(data.shoppingCartViewModel.count);
+                        $(`#OrderTotal`).text(data.orderTotalString);
+
+                        if (data.shoppingCartViewModel.count == 0) {
+                            $(`#shoppingCartRow-${cartId}`).remove();
+                        }
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                });
+            });
+
+            $(".plusButton").click(function () {
+                let cartId = ($(this).attr("data-id"));
+                console.log(cartId)
+                $.ajax({
+                    url: `/Customer/Cart/PlusJson?cartId=${cartId}`,
+                    type: "POST",
+                    data: { id: '' },
+                    success: function (data) {
+                        console.log(data);
+
+                        $(`#shoppingCartPrice-${cartId}`).text(data.shoppingCartViewModel.priceString);
+                        $(`#shoppingCartCount-${cartId}`).text(data.shoppingCartViewModel.count);
+                        $(`#OrderTotal`).text(data.orderTotalString);
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                });
+            });
+
+            $(".removeButton").click(function () {
+                let cartId = ($(this).attr("data-id"));
+                console.log(cartId)
+                $.ajax({
+                    url: `/Customer/Cart/RemoveJson?cartId=${cartId}`,
+                    type: "POST",
+                    data: { id: '' },
+                    success: function (data) {
+                        console.log(data);
+
+                        // $(`#shoppingCartPrice-${cartId}`).text(data.shoppingCartViewModel.priceString);
+                        // $(`#shoppingCartCount-${cartId}`).text(data.shoppingCartViewModel.count);
+                        $(`#shoppingCartRow-${cartId}`).remove();
+                        $(`#OrderTotal`).text(data.orderTotalString);
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                });
+            });
+
+        });
+
+    </script>
+}

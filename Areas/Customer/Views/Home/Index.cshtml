@@ -1,0 +1,97 @@
+﻿@model IndexViewModel
+
+<div class="row pb-3">
+    <div class="col-lg-12 col-sm-12">
+        <div class="row p-2">
+            <div class="input-group">
+                <input id="searchText" type="text" class="form-control" placeholder="Search a product / category" aria-label="Search a product / category" aria-describedby="basic-addon2">
+                <div class="input-group-append">
+                    <a id="searchButton" class="btn btn-outline-primary bg-gradient py-2">
+                        <i class="bi bi-search"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row pb-3">
+    @foreach (var product in Model.ProductViewModels)
+    {
+        <div class="col-lg-3 col-sm-6">
+            <div class="row p-2">
+                <div class="col-12 p-1">
+                    <div class="card border-0 p-3 shadow  border-top border-5 rounded">
+                        @if (product.ProductImages != null && product.ProductImages.Count() > 0)
+                        {
+                            <img src="@product.ProductImages.FirstOrDefault().ImageUrl" class="card-img-top rounded" />
+                        }
+                        else
+                        {
+                            <img src="https://placehold.co/500x600/png" class="card-img-top rounded" />
+                        }
+
+                        <div class="card-body pb-0">
+                            <div class="pl-1">
+                                <p class="card-title h5 text-dark opacity-75 text-uppercase text-center">@product.Name</p>
+                                @* <p class="card-title text-warning text-center">by <b>@product.Description</b></p> *@
+                            </div>
+
+                            <div class="pl-1">
+
+                                @foreach (var category in product.ProductCategories.Select(x => x.CategoryViewModel.Name))
+                                {
+                                    <span class="badge badge-primary">@category</span>
+
+                                }
+                            </div>
+
+                            <div class="pl-1">
+                                <p class="text-dark text-opacity-75 text-center mb-0">
+                                    Price:
+                                    <span class="text-decoration-line-through">
+                                        @product.Price.ToString("c")
+                                    </span>
+                                </p>
+                            </div>
+                            <div class="pl-1">
+                                <p class="text-dark text-opacity-75 text-center">
+                                    As low as:
+                                    <span>
+                                        @product.DiscountedPrice.Value.ToString("c")
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                        <div>
+                            <a asp-action="Details"
+                               asp-route-productId="@product.Id"
+                               class="btn btn-primary bg-gradient border-0 form-control">
+                                Details
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+
+@section Scripts {
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $('a#searchButton').on('click', function (event) {
+                event.preventDefault();
+                let searchText = $('#searchText').val();
+                console.log(searchText);
+
+                let url = '/Customer/Home/Index?searchText=' + searchText;
+                window.location.href = url;
+            });
+
+        });
+
+    </script>
+}

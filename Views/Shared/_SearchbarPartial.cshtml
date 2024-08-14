@@ -1,0 +1,12 @@
+﻿@model string
+
+<li class="nav-item">
+    <div class="input-group">
+        <input asp-for="@Model" type="text" class="form-control" placeholder="Search a product / category" aria-label="Search a product / category" aria-describedby="basic-addon2">
+        <div class="input-group-append">
+            <a class="btn btn-outline-primary bg-gradient py-2" asp-area="Customer" asp-controller="Home" asp-action="Index" asp-route-searchText="@Model">
+                <i class="bi bi-search"></i>
+            </a>
+        </div>
+    </div>
+</li>
