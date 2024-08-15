@@ -19,8 +19,6 @@ namespace ECommerce.Areas.Admin.Controllers
 
         public IActionResult Index()
         {
-            //List<CategoryViewModel> categories = _categoryManager.GetAll();
-            //return View(categories);
             return View();
         }
 
@@ -32,11 +30,6 @@ namespace ECommerce.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Add(CategoryViewModel categoryViewModel)
         {
-            //if (obj.Name == obj.DisplayOrder.ToString())
-            //{
-            //    ModelState.AddModelError("name", "The DisplayOrder cannot exactly match the Name.");
-            //}
-
             if (ModelState.IsValid)
             {
                 _categoryManager.Add(categoryViewModel);
@@ -67,11 +60,6 @@ namespace ECommerce.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Update(CategoryViewModel categoryViewModel)
         {
-            //if (obj.Name == obj.DisplayOrder.ToString())
-            //{
-            //    ModelState.AddModelError("name", "The DisplayOrder cannot exactly match the Name.");
-            //}
-
             if (ModelState.IsValid)
             {
                 _categoryManager.Update(categoryViewModel);
@@ -81,24 +69,6 @@ namespace ECommerce.Areas.Admin.Controllers
 
             return View();
         }
-
-
-        //public IActionResult Delete(int? id)
-        //{
-        //    if (id == null || id == 0)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    CategoryViewModel categoryViewModel = _categoryManager.Get(id.Value);
-
-        //    if (categoryViewModel == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return View(categoryViewModel);
-        //}
-
 
         #region API Calls
 

@@ -28,8 +28,6 @@ namespace ECommerce.Areas.Admin.Controllers
 
         public IActionResult Index()
         {
-            //List<ProductViewModel> products = _productManager.GetAll();
-            //return View(products);
             return View();
         }
 

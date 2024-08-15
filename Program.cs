@@ -20,9 +20,6 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 });
 
-//builder.Services.AddDefaultIdentity<ApplicationUserModel>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
-//builder.Services.AddDefaultIdentity<ApplicationUser>();
-
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();

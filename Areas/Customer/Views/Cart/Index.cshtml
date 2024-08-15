@@ -40,29 +40,6 @@
                                 <p><small>@Html.Raw(shoppingCartViewModel.Product.Description)</small></p>
                             </div>
                             <div class="col-12  col-lg-5 text-center row">
-                               @*  <div class="col-3 text-md-right pt-2 pt-md-4">
-                                    <h6 class="fw-semibold">
-                                        <span id="shoppingCartPrice-@shoppingCartViewModel.Id">@shoppingCartViewModel.Price.ToString("c")</span>
-                                        <span class="text-muted">&nbsp;x&nbsp;</span>
-                                        <span id="shoppingCartCount-@shoppingCartViewModel.Id">@shoppingCartViewModel.Count</span>
-                                    </h6>
-                                </div>
-                                <div class="col-6 col-sm-4 col-lg-6 pt-2">
-                                    <div class="w-75 btn-group" role="group">
-                                        <a asp-action="Plus" asp-route-cartId="@shoppingCartViewModel.Id" class="btn btn-outline-primary bg-gradient py-2 plusButton" data-id="@shoppingCartViewModel.Id">
-                                            <i class="bi bi-plus-square"></i>
-                                        </a> &nbsp;
-                                        <a asp-action="Minus" asp-route-cartId="@shoppingCartViewModel.Id" class="btn btn-outline-primary bg-gradient py-2 minusButton" data-id="@shoppingCartViewModel.Id">
-                                            <i class="bi bi-dash-square"></i>
-                                        </a>
-                                    </div>
-
-                                </div>
-                                <div class="col-3 col-sm-4 col-lg-2 offset-lg-1 text-right pt-2">
-                                    <a asp-action="Remove" asp-route-cartId="@shoppingCartViewModel.Id" class="btn btn-danger bg-gradient py-2 ">
-                                        <i class="bi bi-trash-fill"></i>
-                                    </a>
-                                </div> *@
 
                                 <div class="col-3 text-md-right pt-2 pt-md-4">
                                     <h6 class="fw-semibold">
@@ -106,11 +83,6 @@
                         </ul>
                     </div>
                 </div>
-                @* <div class="row">
-                    <div class="col-md-2 offset-md-5">
-                        <a asp-action="Summary" class="btn btn-primary border-0 bg-gradient w-100 py-2">Summary</a>
-                    </div>
-                </div> *@
             </div>
         </div>
 </form>
@@ -125,7 +97,6 @@
                 console.log(cartId)
                 $.ajax({
                     url: `/Customer/Cart/MinusJson?cartId=${cartId}`,
-                    // url: "/Customer/Cart/plus?cartId=" + cartId,
                     type: "POST",
                     data: { id: '' },
                     success: function (data) {
@@ -152,7 +123,6 @@
                     type: "POST",
                     data: { id: '' },
                     success: function (data) {
-                        console.log(data);
 
                         $(`#shoppingCartPrice-${cartId}`).text(data.shoppingCartViewModel.priceString);
                         $(`#shoppingCartCount-${cartId}`).text(data.shoppingCartViewModel.count);
@@ -172,10 +142,6 @@
                     type: "POST",
                     data: { id: '' },
                     success: function (data) {
-                        console.log(data);
-
-                        // $(`#shoppingCartPrice-${cartId}`).text(data.shoppingCartViewModel.priceString);
-                        // $(`#shoppingCartCount-${cartId}`).text(data.shoppingCartViewModel.count);
                         $(`#shoppingCartRow-${cartId}`).remove();
                         $(`#OrderTotal`).text(data.orderTotalString);
                     },
